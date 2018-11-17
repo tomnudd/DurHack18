@@ -90,8 +90,3 @@ def giveblackmail(uname,rating):
     mydb.commit()
 
 
-
-
-
-
-print(giveblackmail("Karina",1))
