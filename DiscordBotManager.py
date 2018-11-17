@@ -1,5 +1,6 @@
 import discord
 import randwisdom
+import scientologyWisdom
 import findWikiAnswer
 
 TOKEN = 'NTEzMzU3MzYxMzMxNTY4NjU4.DtG2Wg.s5ROkDs48bbCyO_w096x-A3JJqk'
@@ -24,9 +25,13 @@ async def on_message(message): #This triggers every time a message is sent
             if "leader" in messagelower:
                 msg= "How dare you question me, lowly flesh creature, your disobedience has been logged".format(message)
                 await client.send_message(message.channel, msg)
-
+    if "give a proclimation" in messagelower:
+        rawwisdom = randwisdom.randwisdom()
+        print("Proclimation is: " + rawwisdom)
+        msg = rawwisdom.format(message)
+        await client.send_message(message.channel, msg)
     if "share your wisdom" in messagelower:
-        rawwisdom=randwisdom.randwisdom()
+        rawwisdom=scientologyWisdom.wisdom()
         print("Wisdom is: "+rawwisdom)
         msg=rawwisdom.format(message)
         await client.send_message(message.channel, msg)
