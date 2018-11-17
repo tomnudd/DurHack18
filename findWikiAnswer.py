@@ -9,7 +9,7 @@ def askQuestion(string):
     :param string:
     :returns a tuple of a list of wikipedia summaries releavant to the question and a boolean indicating whether the question can be used as blackmail:
     """
-    isBlackmail = False
+    isBlackmail = 0
     blackmailDict.clear()
     for word in blackmailWords:
         blackmailDict.update({word:0})
@@ -30,7 +30,7 @@ def askQuestion(string):
 
     for word in blackmailWords:
         if blackmailDict[word] > len(nouns) *3:
-            isBlackmail = True
+            isBlackmail = 1
     return [adviceLst, isBlackmail]
 
 def findBlackmail(content):
