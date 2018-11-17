@@ -7,5 +7,3 @@ def randwisdom():
     text_model = markovify.Text(text)
     
     return text_model.make_sentence()
-
-print(wisdom())
