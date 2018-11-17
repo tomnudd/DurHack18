@@ -26,14 +26,16 @@ def askQuestion(string):
             if title[0] is not None:
                 adviceLst.append(wikipedia.summary(title[0]))
                 page = wikipedia.WikipediaPage(title[0])
-                findBlackmailFromWiki(page.content)
+                blackmailCount = findBlackmailFromWiki(page.content)
 
-    for word in blackmailWords:
-        if blackmailDict[word] > len(nouns) *3:
-            isBlackmail = 1
-    return [adviceLst, isBlackmail]
+    blackmailLevel = blackmailCount * int(len(nouns)/4)
+    if blackmailLevel > 3:
+        blackmailLevel = 3
+    return [adviceLst, blackmailLevel]
 
 def findBlackmailFromWiki(content):
+    blackmailCount = 0
+    
     # adapted from user Boa on https://stackoverflow.com/questions/33587667/extracting-all-nouns-from-a-text-file-using-nltk
     # function to test if something is a noun
     is_noun = lambda pos: pos[:2] == 'NN'
@@ -44,10 +46,11 @@ def findBlackmailFromWiki(content):
     for noun in nouns:
         for word in blackmailWords:
             if word == noun.lower():
-                blackmailDict[word] += 1
+                blackmailCount += 1
+    return blackmailCount
 
 def findBlackmail(content):
-    isBlackmail = 0
+    blackmailLevel = 0
     # adapted from user Boa on https://stackoverflow.com/questions/33587667/extracting-all-nouns-from-a-text-file-using-nltk
     # function to test if something is a noun
     is_noun = lambda pos: pos[:2] == 'NN'
@@ -58,8 +61,10 @@ def findBlackmail(content):
     for noun in nouns:
         for word in blackmailWords:
             if word == noun.lower():
-                isBlackmail = 1
-    return isBlackmail
+                blackmailLevel += 1
+    if blackmailLevel > 3:
+        blackmailLevel = 3
+    return blackmailLevel
     
 
     
