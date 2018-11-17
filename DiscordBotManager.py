@@ -62,8 +62,11 @@ async def on_ready():  #Runs when the bot connects
     ch_cult_chat=client.get_channel("513354948092755992")
 
 def requestpraise():
+    client.loop.create_task(asyncrequestpraise)
+    
+async def asyncrequestpraise():
     msg = "PRAISE ME MORTALS"
-    client.send_message(ch_proclimations, msg)
+    await client.send_message(ch_proclimations, msg)
 
 
 client.run(TOKEN)
