@@ -1,11 +1,11 @@
 import discord
 import randwisdom
+import findWikiAnswer
 
 TOKEN = 'NTEzMzU3MzYxMzMxNTY4NjU4.DtG2Wg.s5ROkDs48bbCyO_w096x-A3JJqk'
-
+import findWikiAnswer
 insultingstarters=["down with","i hate", "fuck","die", "i am having doubts", "i dislike","screw"]
 client = discord.Client()
-
 @client.event
 async def on_message(message): #This triggers every time a message is sent
     # we do not want the bot to reply to itself so it ends it the message sender is the same as the bot
@@ -28,6 +28,11 @@ async def on_message(message): #This triggers every time a message is sent
         print("Wisdom is: "+rawwisdom)
         msg=rawwisdom.format(message)
         await client.send_message(message.channel, msg)
+        #askQuestion() returns a list of the 'advice' and a value for blackmail
+        findWikiAnswer.askQuestion(messagelower)
+    else:
+        #just returns a value for blackmail
+        findWikiAnswer.findBlackmail(messagelower)
 
 @client.event
 async def on_ready():  #Runs when the bot connects
