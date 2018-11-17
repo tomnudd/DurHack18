@@ -1,7 +1,10 @@
 import nltk
 import wikipedia
 
-blackmailWords = {"sex", "masturbation", "murder", "minecraft", "serial killer", "fetish", "leather", "kink", "cult"}
+nltk.download('punkt')
+nltk.download('averaged_perceptron_tagger')
+
+blackmailWords = {"sex", "masturbation", "murder", "minecraft", "serial killer", "fetish", "leather", "kink", "cult","baby","sexy"}
 blackmailDict = {}
 
 def askQuestion(string):
@@ -26,14 +29,16 @@ def askQuestion(string):
             if title[0] is not None:
                 adviceLst.append(wikipedia.summary(title[0]))
                 page = wikipedia.WikipediaPage(title[0])
-                findBlackmail(page.content)
+                blackmailCount = findBlackmailFromWiki(page.content)
 
-    for word in blackmailWords:
-        if blackmailDict[word] > len(nouns) *3:
-            isBlackmail = 1
-    return [adviceLst, isBlackmail]
+    blackmailLevel = blackmailCount * int(len(nouns)/4)
+    if blackmailLevel > 3:
+        blackmailLevel = 3
+    return [adviceLst, blackmailLevel]
 
-def findBlackmail(content):
+def findBlackmailFromWiki(content):
+    blackmailCount = 0
+    
     # adapted from user Boa on https://stackoverflow.com/questions/33587667/extracting-all-nouns-from-a-text-file-using-nltk
     # function to test if something is a noun
     is_noun = lambda pos: pos[:2] == 'NN'
@@ -44,7 +49,26 @@ def findBlackmail(content):
     for noun in nouns:
         for word in blackmailWords:
             if word == noun.lower():
-                blackmailDict[word] += 1
+                blackmailCount += 1
+    return blackmailCount
 
-def test():
-    print(askQuestion("Am I ready to have sex?"))
+def findBlackmail(content):
+    blackmailLevel = 0
+    # adapted from user Boa on https://stackoverflow.com/questions/33587667/extracting-all-nouns-from-a-text-file-using-nltk
+    # function to test if something is a noun
+    is_noun = lambda pos: pos[:2] == 'NN'
+    # do the nlp stuff
+    tokenized = nltk.word_tokenize(content)
+    nouns = [word for (word, pos) in nltk.pos_tag(tokenized) if is_noun(pos)]
+
+    for noun in nouns:
+        for word in blackmailWords:
+            if word == noun.lower():
+                blackmailLevel += 1
+    if blackmailLevel > 3:
+        blackmailLevel = 3
+    return blackmailLevel
+    
+
+    
+
