@@ -40,7 +40,7 @@ async def on_message(message): #This triggers every time a message is sent
         else:
             isBlackmail = findWikiAnswer.findBlackmail(messagelower)
 
-    if isBlackmail = 1:
+    if isBlackmail == 1:
         #need another function to input the blackmail into the database
 
 @client.event
