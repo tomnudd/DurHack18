@@ -4,7 +4,7 @@ import scientologyWisdom
 import findWikiAnswer
 
 TOKEN = 'NTEzMzU3MzYxMzMxNTY4NjU4.DtG2Wg.s5ROkDs48bbCyO_w096x-A3JJqk'
-import findWikiAnswer
+
 insultingstarters=["down with","i hate", "fuck","die", "i am having doubts", "i dislike","screw"]
 ch_proclimations=None #Initialises this before its edited
 client = discord.Client()
