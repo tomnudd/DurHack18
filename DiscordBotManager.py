@@ -22,7 +22,7 @@ async def on_message(message): #This triggers every time a message is sent
 
         await client.send_message(message.channel, msg)
     for i in insultingstarters:
-        if messagelower.startswith(insultingstarters[i]):
+        if messagelower.startswith(i):
             if "leader" in messagelower:
                 msg= "How dare you question me, lowly flesh creature, your disobedience has been logged".format(message)
                 await client.send_message(message.channel, msg)
