@@ -11,8 +11,7 @@ async def on_message(message):
     if message.author == client.user:
         return
     messagelower=message.content.lower()
-    print(messagelower)
-    print(message.content)
+    print("Message from "+str(message.author)+": "+message.content)
     if messagelower.startswith('hello'):
         msg = 'Hello {0.author.mention}'.format(message)
 
@@ -25,6 +24,7 @@ async def on_message(message):
 
     if "share your wisdom" in messagelower:
         rawwisdom=randwisdom.randwisdom()
+        print("Wisdom is: "+rawwisdom)
         msg=rawwisdom.format(message)
         await client.send_message(message.channel, msg)
 
