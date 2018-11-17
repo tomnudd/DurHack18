@@ -1,2 +1,4 @@
 discord.py==0.16.12
 markovify==0.7.1
+mysql==0.0.2
+mysql-connector==2.1.6
