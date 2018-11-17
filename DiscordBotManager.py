@@ -39,6 +39,7 @@ async def on_message(message): #This triggers every time a message is sent
         await client.send_message(message.channel, msg)
     else:
         if ("?" in messagelower) and ( "<@513357361331568658>" in messagelower):
+            print("Time to ask a question!")
             #askQuestion() returns a list of the 'advice' and a value for blackmail
             answer = findWikiAnswer.askQuestion(messagelower)
             isBlackmail = answer[1]
@@ -63,7 +64,7 @@ async def on_ready():  #Runs when the bot connects
 
 def requestpraise():
     client.loop.create_task(asyncrequestpraise)
-    
+
 async def asyncrequestpraise():
     msg = "PRAISE ME MORTALS"
     await client.send_message(ch_proclimations, msg)
