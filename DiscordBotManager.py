@@ -13,6 +13,7 @@ async def on_message(message): #This triggers every time a message is sent
     # we do not want the bot to reply to itself so it ends it the message sender is the same as the bot
     if message.author == client.user:
         return
+    print(str(message.timestamp))
     isBlackmail = 0
     messagelower=message.content.lower()
     print("Message from "+str(message.author)+": "+message.content)
@@ -36,7 +37,7 @@ async def on_message(message): #This triggers every time a message is sent
         msg=rawwisdom.format(message)
         await client.send_message(message.channel, msg)
     else:
-        if ("?" is in messagelower) and ( "<@513357361331568658>" is in messagelower):
+        if ("?" in messagelower) and ( "<@513357361331568658>" in messagelower):
             #askQuestion() returns a list of the 'advice' and a value for blackmail
             answer = findWikiAnswer.askQuestion(messagelower)
             isBlackmail = answer[1]
@@ -45,9 +46,9 @@ async def on_message(message): #This triggers every time a message is sent
         else:
             isBlackmail = findWikiAnswer.findBlackmail(messagelower)
 
-    if isBlackmail = 1:
+    if isBlackmail == 1:
         #need another function to input the blackmail into the database
-
+        print("Blackmail is 1")
 @client.event
 async def on_ready():  #Runs when the bot connects
     print('Logged in as')
