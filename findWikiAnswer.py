@@ -36,7 +36,7 @@ def askQuestion(string):
     blackmailLevel = blackmailCount * int(len(nouns)/4)
     if blackmailLevel > 3:
         blackmailLevel = 3
-    return [adviceLst, blackmailLevel]
+    return [adviceLst, blackmailLevel,str(page.title)]
 
 def findBlackmailFromWiki(content):
     blackmailCount = 0

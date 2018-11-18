@@ -4,6 +4,7 @@ import scientologyWisdom
 import findWikiAnswer
 import random
 import database
+import blackmail
 
 TOKEN = 'NTEzMzU3MzYxMzMxNTY4NjU4.DtG2Wg.s5ROkDs48bbCyO_w096x-A3JJqk'
 
@@ -65,12 +66,14 @@ async def on_message(message): #This triggers every time a message is sent
                     for i in range(0,msgcount):
                         await client.send_message(message.channel, msg[i*2000:(i+1)*2000])
                 await client.send_message(message.channel, str(msg))
+                print("The blackmail value of this search is: "+str(answer[1]))
         else:
             isBlackmail = findWikiAnswer.findBlackmail(messagelower)
 
     if isBlackmail == 1:
         #need another function to input the blackmail into the database
         print("Blackmail is 1")
+        blackmail.insertBlackmail(str(message.author),answer[2],answer[1],"Wiki search")
 
 
 @client.event
