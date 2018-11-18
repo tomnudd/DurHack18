@@ -1,5 +1,6 @@
 import discord
 import randwisdom
+import scientologyWisdom
 import findWikiAnswer
 import random
 
@@ -26,20 +27,25 @@ async def on_message(message): #This triggers every time a message is sent
     for i in insultingstarters:
         if messagelower.startswith(i):
             if "leader" in messagelower:
-                msg= "How dare you question me, lowly flesh creature, your disobedience has been logged".format(message)
+                msg= "How dare you question me, lowly flesh creature, your disobedience has been logged"
                 await client.send_message(message.channel, msg)
     if messagelower.startswith("should i") and not "or" in messagelower:
         randnum=random.randint(0,2)
         if randnum==1:
             await client.send_message(message.channel, "No")
         else:
-            await client.send_message(message.channel, "Yay")
+            await client.send_message(message.channel, "Yes")
 
 
 
     elif "share your wisdom" in messagelower:
         rawwisdom=randwisdom.randwisdom()
         print("Wisdom is: "+rawwisdom)
+        msg=rawwisdom.format(message)
+        await client.send_message(message.channel, msg)
+    elif "share your scientology" or "give a proclamation" in messagelower:
+        rawwisdom=scientologyWisdom.wisdom()
+        print("Proclamation is: "+rawwisdom)
         msg=rawwisdom.format(message)
         await client.send_message(message.channel, msg)
     else:
@@ -63,6 +69,8 @@ async def on_message(message): #This triggers every time a message is sent
     if isBlackmail == 1:
         #need another function to input the blackmail into the database
         print("Blackmail is 1")
+
+
 @client.event
 async def on_ready():  #Runs when the bot connects
     print('Logged in as')
@@ -73,13 +81,19 @@ async def on_ready():  #Runs when the bot connects
     global ch_cult_chat
     ch_proclimations=client.get_channel("513403703533895680")
     ch_cult_chat=client.get_channel("513354948092755992")
+  #  print("Post-ready Praise Request")
+  #  requestpraise()
+    client.loop.call_later(10800,requestpraise) #Set time until you run requestpraise, 10800 for 3 hours
 
 def requestpraise():
-    client.loop.create_task(asyncrequestpraise)
-
-async def asyncrequestpraise():
+    print("Waiting till ready to request praise")
+    client.wait_until_ready()
+    print("Requesting Praise")
     msg = "PRAISE ME MORTALS"
-    await client.send_message(ch_proclimations, msg)
+    client.loop.create_task(client.send_message(ch_proclimations, msg))
+    client.loop.call_later(10800, requestpraise) #Set time until repeat
 
 
+
+print("Starting bot")
 client.run(TOKEN)
