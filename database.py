@@ -24,9 +24,11 @@ def insertusrinfo(datatype,data,uname):
     )
 
     mycursor = mydb.cursor()
-    sql = "UPDATE users SET %s = %s WHERE discorduname = %s"
-    val = (datatype,data,uname)
-    mycursor.execute(sql, val)
+    sql = "UPDATE users SET {} = \"{}\" WHERE discorduname = \"{}\"".format(datatype, data, uname)
+    print(sql)
+    #val = (datatype,data,uname)
+    #mycursor.execute(sql, val)
+    mycursor.execute(sql)
 
     mydb.commit()
 
@@ -39,14 +41,14 @@ def addbpoint(uname):
     )
     mycursor = mydb.cursor()
 
-    mycursor.execute("SELECT badpoints FROM users WHERE discorduname="+ str(uname))
-
-    x= mycursor.fetchone()
-    x+=1
-    sql = "UPDATE users SET badpoints = %s WHERE discorduname = %s"
-    val=(x,uname)
-    mycursor.execute(sql,val)
-    mydb.commit()
+    mycursor.execute("SELECT badpoints FROM users WHERE discorduname= \"{}\"".format(uname))
+    myresult=mycursor.fetchone()
+    for x in myresult:
+        x+=1
+        sql = "UPDATE users SET badpoints = \"{}\" WHERE discorduname = \"{}\"".format(x,uname)
+        print(sql)
+        mycursor.execute(sql)
+        mydb.commit()
 
 def adduser(uname):
     mydb = mysql.connector.connect(
@@ -58,9 +60,8 @@ def adduser(uname):
 
     mycursor = mydb.cursor()
 
-    sql = "INSERT INTO users (discorduname) VALUES (%s)"
-    val = (uname)
-    mycursor.execute(sql, val)
+    sql = "INSERT INTO users (discorduname,badpoints) VALUES (\"{}\",0)".format(uname)
+    mycursor.execute(sql)
 
     mydb.commit()
 
@@ -73,11 +74,12 @@ def giveblackmail(uname,rating):
     )
     mycursor = mydb.cursor()
 
-    mycursor.execute("SELECT * FROM blackmail WHERE discorduname="+str(uname)+" AND rating="+int(rating)+" AND used=null")
+    mycursor.execute("SELECT blackmail FROM blackmail WHERE discorduname= \"{}\" AND rating= \"{}\"".format(uname,rating))
 
     myresult = mycursor.fetchone()
+    for i in myresult:
+        return i
 
-    return(myresult)
 
     mycursor = mydb.cursor()
 
@@ -88,8 +90,3 @@ def giveblackmail(uname,rating):
     mydb.commit()
 
 
-
-
-
-
-insertblackmail("karina", "Is actually a russian spy", "2")

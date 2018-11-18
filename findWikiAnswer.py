@@ -4,7 +4,7 @@ import wikipedia
 nltk.download('punkt')
 nltk.download('averaged_perceptron_tagger')
 
-blackmailWords = {"sex", "masturbation", "murder", "minecraft", "serial killer", "fetish", "leather", "kink", "cult"}
+blackmailWords = {"sex", "masturbation", "murder", "minecraft", "serial killer", "fetish", "leather", "kink", "cult","baby","sexy"}
 blackmailDict = {}
 
 def askQuestion(string):
