@@ -25,10 +25,3 @@ def praisecheck(serverid_list, userid_list, sent_time):
         serverid_list.remove(userid_list[0])
 
     return serverid_list
-
-
-server = ["user1", "user2", "user3"]
-praise = ("user1", "2018-11-17 22:33:29.273000")
-sent = "2018-11-17 22:00:00.000000"
-
-print(praisecheck(server, praise, sent))
