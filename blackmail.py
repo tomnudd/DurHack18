@@ -7,4 +7,4 @@ def insertBlackmail(username, blackmail, rating, action):
 def blackmail(username, level):
     return username + " " + database.giveblackmail(username,level)
 
-print(blackmail("karina","2"))
+#print(blackmail("karina","2"))

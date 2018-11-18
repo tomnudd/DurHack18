@@ -133,13 +133,13 @@ def giveblackmail(uname,rating):
         return i
 
 
-    # mycursor = mydb.cursor()
-    #
-    # sql = "UPDATE blackmail SET used = 1 WHERE address =" + myresult
-    #
-    # mycursor.execute(sql)
-    #
-    # mydb.commit()
+    mycursor = mydb.cursor()
+
+    sql = "UPDATE blackmail SET used = 1 WHERE blackmail =" + myresult
+
+    mycursor.execute(sql)
+
+    mydb.commit()
 
 
 def badpointcount(user):
@@ -160,5 +160,3 @@ def badpointcount(user):
     mycursor.execute("SELECT badpoints FROM users WHERE discorduname= \"{}\"".format(uname))
     myresult = mycursor.fetchone()
     return myresult
-
-insertblackmail("Cass","Is high",2)
