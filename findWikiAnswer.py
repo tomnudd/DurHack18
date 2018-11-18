@@ -26,17 +26,20 @@ def askQuestion(string):
     nouns = [word for (word, pos) in nltk.pos_tag(tokenized) if is_noun(pos)]
 
     for noun in nouns:
+        try:
             title = wikipedia.search(noun, 1, True)
-            print(title)
             if title[0] is not None:
                 adviceLst.append(wikipedia.summary(title[0]))
                 page = wikipedia.WikipediaPage(title[0])
                 blackmailCount = findBlackmailFromWiki(page.content)
+        except:
+            adviceLst.append("This question is beneath me, foolish mortal")
+            blackmailCount *= 3
 
     blackmailLevel = blackmailCount * int(len(nouns)/4)
     if blackmailLevel > 3:
         blackmailLevel = 3
-    return [adviceLst, blackmailLevel,str(page.title)]
+    return [adviceLst, blackmailLevel, nouns]
 
 def findBlackmailFromWiki(content):
     blackmailCount = 0
