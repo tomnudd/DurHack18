@@ -1,6 +1,7 @@
 import database
 
 def insertBlackmail(username, blackmail, rating, action):
+    print("Adding blackmail")
     database.insertblackmail(username, blackmail, rating)
 
 def blackmail(username, level):
