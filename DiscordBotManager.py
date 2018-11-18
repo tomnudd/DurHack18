@@ -15,7 +15,7 @@ client = discord.Client()
 @client.event
 async def on_message(message): #This triggers every time a message is sent
     # we do not want the bot to reply to itself so it ends it the message sender is the same as the bot
-    print("Message from "+str(message.author)+": "+message.content)
+    print("Message from "+str(message.author)+" on "+str(message.channel)+": "+message.content)
     if message.author == client.user:
         return
     print(str(message.timestamp))
@@ -32,7 +32,7 @@ async def on_message(message): #This triggers every time a message is sent
                 msg= "How dare you question me, lowly flesh creature, your disobedience has been logged"
                 await client.send_message(message.channel, msg)
                 database.addbpoint(str(message.author),3) # Adds 3 bad points for being rude
-    if messagelower.startswith("should i") and not "or" in messagelower:
+    if (messagelower.startswith("should i") and not "or" in messagelower) or (messagelower.startswith("is")):
         randnum=random.randint(0,2)
         if randnum==1:
             await client.send_message(message.channel, "No")
@@ -98,6 +98,16 @@ def requestpraise():
     client.loop.create_task(client.send_message(ch_proclimations, msg))
     client.loop.call_later(10800, requestpraise) #Set time until repeat
 
+async def requestsecret(user):
+    client.start_private_message(user)
+    client.send_message(user,"Tell me a secret dear follower")
+    validresponse=False
+    while not validresponse:
+        reply=client.wait_for_message(author=user)
+        if reply.channel.is_private:
+            client.send_message(user, "Your obedience is noted")
+            blackmail.insertBlackmail(str(user),reply,3,"Sent as secret")
+            validresponse=True
 
 
 print("Starting bot")
