@@ -33,7 +33,7 @@ async def on_message(message): #This triggers every time a message is sent
         if randnum==1:
             await client.send_message(message.channel, "No")
         else:
-            await client.send_message(message.channel, "Yay")
+            await client.send_message(message.channel, "Yes")
 
 
 
@@ -63,6 +63,8 @@ async def on_message(message): #This triggers every time a message is sent
     if isBlackmail == 1:
         #need another function to input the blackmail into the database
         print("Blackmail is 1")
+
+
 @client.event
 async def on_ready():  #Runs when the bot connects
     print('Logged in as')
@@ -81,5 +83,5 @@ async def asyncrequestpraise():
     msg = "PRAISE ME MORTALS"
     await client.send_message(ch_proclimations, msg)
 
-
+print("Starting bot")
 client.run(TOKEN)
