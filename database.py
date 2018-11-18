@@ -66,7 +66,6 @@ def addbpoint(uname,number):
     myresult = mycursor.fetchone()
     if (myresult == None):
         adduser(uname)
-        return 0
 
     mycursor.execute("SELECT badpoints FROM users WHERE discorduname= \"{}\"".format(uname))
     myresult=mycursor.fetchone()
