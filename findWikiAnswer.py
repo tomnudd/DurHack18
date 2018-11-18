@@ -1,10 +1,11 @@
 import nltk
 import wikipedia
+import re
 
 nltk.download('punkt')
 nltk.download('averaged_perceptron_tagger')
 
-blackmailWords = {"sex", "masturbation", "murder", "minecraft", "serial killer", "fetish", "leather", "kink", "cult","baby","sexy"}
+blackmailWords = {"sex", "masturbation", "murder", "minecraft", "serial killer", "fetish", "leather", "kink", "cult","baby","sexy","foreplay"}
 blackmailDict = {}
 
 def askQuestion(string):
@@ -54,6 +55,11 @@ def askQuestion(string):
 
     if blackmailCount > 3:
         blackmailCount = 3
+    i = 0
+    while i < len(adviceLst):
+        advice = formatAdvice(adviceLst[i])
+        adviceLst[i] = advice
+        i += 1
     return [adviceLst, int(blackmailCount), nouns]
 
 def findBlackmailFromWiki(content):
@@ -88,7 +94,10 @@ def findBlackmail(content):
     if blackmailLevel > 3:
         blackmailLevel = 3
     return blackmailLevel
-    
 
-    
+def formatAdvice(advice):
+    temp = re.split('([.?!])', advice, 2)
+    advice = temp[0] + temp[1] + temp[2] + temp[3]
+    print (advice)
+    return advice
 
