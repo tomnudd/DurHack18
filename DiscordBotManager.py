@@ -56,6 +56,7 @@ async def on_message(message): #This triggers every time a message is sent
         await client.send_message(message.channel, msg)
     else:
         if ("?" in messagelower) and ( "<@513357361331568658>" in messagelower):
+            print("Question detected")
             messagelower = messagelower.replace("<@513357361331568658>", "")
             #askQuestion() returns a list of the 'advice' and a value for blackmail
             answer = findWikiAnswer.askQuestion(messagelower)
@@ -93,9 +94,9 @@ async def on_ready():  #Runs when the bot connects
   #  requestpraise()
     client.loop.call_later(10800,requestpraise) #Set time until you run requestpraise, 10800 for 3 hours
     client.wait_until_ready()
-    #CassUser=await client.get_user_info("99611176119312384")
-    #print(type(CassUser))
-    #print(CassUser.name)
+    CassUser=await client.get_user_info("99611176119312384")
+
+    print(str(CassUser))
     #client.loop.create_task(requestsecret(CassUser))
 
 def requestpraise():
