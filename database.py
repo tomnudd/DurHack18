@@ -1,4 +1,5 @@
 import mysql.connector
+import generateBlackmail
 # This works well
 def insertblackmail(uname,blackmails,ratings):
     mydb = mysql.connector.connect(
@@ -126,7 +127,7 @@ def giveblackmail(uname,rating):
                 "SELECT blackmail FROM blackmail WHERE discorduname= \"{}\" ORDER BY RAND()".format(uname))
             myresult = mycursor.fetchone()
             if(myresult==None):
-                return 0
+                return generateBlackmail.generateBlackmail(uname)
 
 
     for i in myresult:
