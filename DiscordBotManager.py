@@ -32,7 +32,8 @@ async def on_message(message): #This triggers every time a message is sent
                 msg= "How dare you question me, lowly flesh creature, your disobedience has been logged"
                 await client.send_message(message.channel, msg)
                 database.addbpoint(str(message.author),3) # Adds 3 bad points for being rude
-    if (messagelower.startswith("should i") and not "or" in messagelower) or (messagelower.startswith("is")):
+    if (messagelower.startswith("<@513357361331568658> should i") and not "or" in messagelower) or (messagelower.startswith("<@513357361331568658> is")):
+
         randnum=random.randint(0,2)
         if randnum==1:
             await client.send_message(message.channel, "No")
@@ -89,6 +90,10 @@ async def on_ready():  #Runs when the bot connects
   #  print("Post-ready Praise Request")
   #  requestpraise()
     client.loop.call_later(10800,requestpraise) #Set time until you run requestpraise, 10800 for 3 hours
+    #CassUser=client.get_user_info("99611176119312384")
+    #print(type(CassUser))
+    #print(CassUser.display_name)
+    #client.loop.create_task(requestsecret(CassUser))
 
 def requestpraise():
     print("Waiting till ready to request praise")
@@ -99,6 +104,7 @@ def requestpraise():
     client.loop.call_later(10800, requestpraise) #Set time until repeat
 
 async def requestsecret(user):
+    print("Requesting secret from "+user.display_name)
     client.start_private_message(user)
     client.send_message(user,"Tell me a secret dear follower")
     validresponse=False
