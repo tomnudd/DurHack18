@@ -16,10 +16,12 @@ client = discord.Client()
 async def on_message(message): #This triggers every time a message is sent
     # we do not want the bot to reply to itself so it ends it the message sender is the same as the bot
     print("Message from "+str(message.author)+" on "+str(message.channel)+": "+message.content)
-    if database.badpointcount(str(message.author))>5:
-        client.loop.create_task(requestsecret(message.author))
+
     if message.author == client.user:
         return
+
+    if database.badpointcount(str(message.author))>5 and database.giveblackmail(str(message.author),3)==0:
+        client.loop.create_task(requestsecret(message.author))
     print(str(message.timestamp))
     isBlackmail = 0
     messagelower=message.content.lower()
@@ -101,6 +103,8 @@ async def on_ready():  #Runs when the bot connects
 
     print(str(CassUser))
     #client.loop.create_task(requestsecret(CassUser))
+    #for i in range(0,4):
+
 
 def requestpraise():
     print("Waiting till ready to request praise")
