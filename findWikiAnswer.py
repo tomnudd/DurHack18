@@ -1,4 +1,5 @@
 import nltk
+# https://www.nltk.org/index.html
 import wikipedia
 import re
 
@@ -15,9 +16,6 @@ def askQuestion(string):
     """
     string = string.replace("?","")
     blackmailCount = 0
-    blackmailDict.clear()
-    for word in blackmailWords:
-        blackmailDict.update({word:0})
     adviceLst = list()
     if "who" in string:
         string = string.replace("who", "")
@@ -48,6 +46,9 @@ def askQuestion(string):
                     adviceLst.append(wikipedia.summary(title[0]))
                     page = wikipedia.WikipediaPage(title[0])
                     blackmailCount += findBlackmailFromWiki(page.content)
+                else:
+                    adviceLst.append("This question is beneath me, foolish mortal")
+                    blackmailCount *= 3
             except:
                 adviceLst.append("This question is beneath me, foolish mortal")
                 blackmailCount *= 3
@@ -56,10 +57,14 @@ def askQuestion(string):
     if blackmailCount > 3:
         blackmailCount = 3
     i = 0
-    while i < len(adviceLst):
-        advice = formatAdvice(adviceLst[i])
-        adviceLst[i] = advice
-        i += 1
+    if len(adviceLst) == 0:
+        adviceLst.append("Do not concern yourself with such matters.")
+        blackmailCount = 2
+    else:
+        while i < len(adviceLst):
+            advice = formatAdvice(adviceLst[i])
+            adviceLst[i] = advice
+            i += 1
     return [adviceLst, int(blackmailCount), nouns]
 
 def findBlackmailFromWiki(content):
@@ -97,7 +102,7 @@ def findBlackmail(content):
 
 def formatAdvice(advice):
     temp = re.split('([.?!])', advice, 2)
-    advice = temp[0] + temp[1] + temp[2] + temp[3]
-    print (advice)
+    if len(temp) > 3:
+        advice = temp[0] + temp[1] + temp[2] + temp[3]
     return advice
 
