@@ -10,18 +10,28 @@
 # i.e. store userid as key and FALSE as value if they haven't replied within 1 hour
 # TRUE if they have.... obviously
 # reset all values to FALSE when praise is asked for again
+import time
 
-def praisecheck(serverid_list, userid_list, sent_time):
-    import time
+def praisecheck(not_praised_leader, userid_tuple, req_sent_time):
+    """
+    :param not_praised_leader: list of user IDs who haven't praised leader (currently everyone)
+    :param userid_tuple: {userID, time sent praise}
+    :param req_sent_time: time praise requested, in string format
+    :return: user IDs who have not praised the leader
+    """
+
+
+    time_components = req_sent_time.split(".")
+    time_of_praise_req = time.strptime(time_components[0], "%Y-%m-%d %H:%M:%S")
     
-    sent_time2 = sent_time.split(".")                         
-    sent_time3 = time.strptime(sent_time2[0], "%Y-%m-%d %H:%M:%S")
+    userid_time = userid_tuple[1].split(".")
+    time_praise_received = time.strptime(userid_time[0], "%Y-%m-%d %H:%M:%S")
     
-    userid_time = userid_list[1].split(".")    
-    userid_time2 = time.strptime(userid_time[0], "%Y-%m-%d %H:%M:%S")
-    
-    difference = time.mktime(userid_time2) - time.mktime(sent_time3)
+    difference = time.mktime(time_praise_received) - time.mktime(time_of_praise_req)
     if difference < 60**2:
-        serverid_list.remove(userid_list[0])
+        not_praised_leader.remove(userid_tuple[0])
 
-    return serverid_list
+    return not_praised_leader
+
+def test():
+    print(praisecheck(["Jimmy", "Paula"], ["Paula", "2018-11-17 22:33:29.273000"], "2018-11-17 22:33:29.273000"))
