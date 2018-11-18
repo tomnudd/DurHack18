@@ -12,7 +12,7 @@ def main():
     schedule.every().day.at("18:00").do(DiscordBotManager.requestpraise)
     schedule.every().day.at("21:00").do(DiscordBotManager.requestpraise)
     schedule.every().day.at("24:00").do(DiscordBotManager.requestpraise)
-
+    DiscordBotManager.requestpraise()
 
     while True:
         schedule.run_pending()
