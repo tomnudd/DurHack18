@@ -142,7 +142,7 @@ def giveblackmail(uname,rating):
     mydb.commit()
 
 
-def badpointcount(user):
+def badpointcount(uname):
     mydb = mysql.connector.connect(
         host="cult.cv27lm8h5axy.eu-west-1.rds.amazonaws.com",
         user="samrobbins",
@@ -159,4 +159,7 @@ def badpointcount(user):
         return 0
     mycursor.execute("SELECT badpoints FROM users WHERE discorduname= \"{}\"".format(uname))
     myresult = mycursor.fetchone()
-    return myresult
+    for i in myresult:
+        return i
+
+insertblackmail("Cass","Hates Us All for ever",2)

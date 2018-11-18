@@ -1,4 +1,4 @@
 pip install wheel
-pip install -r require.txt
+pip install -r "%~dp0require.txt"
 
 pause
