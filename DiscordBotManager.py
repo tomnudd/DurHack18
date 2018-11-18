@@ -36,7 +36,8 @@ async def on_message(message): #This triggers every time a message is sent
                 msg= "How dare you question me, lowly flesh creature, your disobedience has been logged"
                 await client.send_message(message.channel, msg)
                 database.addbpoint(str(message.author),3) # Adds 3 bad points for being rude
-                blackmail(message.author)
+                    await client.send_message(513372966533464064, str(user) + "has defied the cult.")
+                    await client.send_message(513372966533464064, blackmail(message.author,3)
 
     if (messagelower.startswith("<@513357361331568658> should") and not "or" in messagelower) or (messagelower.startswith("<@513357361331568658> is")) or (messagelower.startswith("<@513357361331568658> am")) or (messagelower.startswith("<@513357361331568658> does"))or (messagelower.startswith("<@513357361331568658> would")) or (messagelower.startswith("<@513357361331568658> could"))or (messagelower.startswith("<@513357361331568658> are")) or (messagelower.startswith("<@513357361331568658> can")):
 
