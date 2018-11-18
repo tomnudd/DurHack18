@@ -161,10 +161,3 @@ def badpointcount(user):
     myresult = mycursor.fetchone()
     return myresult
 
-
-
-
-
-
-
-giveblackmail("Sam","2")
