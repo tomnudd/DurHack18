@@ -12,31 +12,49 @@ def askQuestion(string):
     :param string:
     :returns a tuple of a list of wikipedia summaries releavant to the question and a boolean indicating whether the question can be used as blackmail:
     """
+    string = string.replace("?","")
     blackmailCount = 0
     blackmailDict.clear()
     for word in blackmailWords:
         blackmailDict.update({word:0})
     adviceLst = list()
-
-# adapted from user Boa on https://stackoverflow.com/questions/33587667/extracting-all-nouns-from-a-text-file-using-nltk
-    # function to test if something is a noun
-    is_noun = lambda pos: pos[:2] == 'NN'
-    # do the nlp stuff
-    tokenized = nltk.word_tokenize(string)
-    nouns = [word for (word, pos) in nltk.pos_tag(tokenized) if is_noun(pos)]
-
-    for noun in nouns:
-            title = wikipedia.search(noun, 1, True)
-            print(title)
+    if "who" in string:
+        string = string.replace("who", "")
+        string = string.replace("is", "")
+        try:
+            nouns = [string]
+            title = wikipedia.search(string, 1, True)
             if title[0] is not None:
                 adviceLst.append(wikipedia.summary(title[0]))
                 page = wikipedia.WikipediaPage(title[0])
                 blackmailCount = findBlackmailFromWiki(page.content)
+        except:
+            adviceLst.append("This question is beneath me, foolish mortal")
+            blackmailCount *= 3
 
-    blackmailLevel = blackmailCount * int(len(nouns)/4)
-    if blackmailLevel > 3:
-        blackmailLevel = 3
-    return [adviceLst, blackmailLevel]
+# adapted from user Boa on https://stackoverflow.com/questions/33587667/extracting-all-nouns-from-a-text-file-using-nltk
+    # function to test if something is a noun
+    else:
+        is_noun = lambda pos: pos[:2] == 'NN'
+        # do the nlp stuff
+        tokenized = nltk.word_tokenize(string)
+        nouns = [word for (word, pos) in nltk.pos_tag(tokenized) if is_noun(pos)]
+
+        for noun in nouns:
+            try:
+                title = wikipedia.search(noun, 1, True)
+                if title[0] is not None:
+                    adviceLst.append(wikipedia.summary(title[0]))
+                    page = wikipedia.WikipediaPage(title[0])
+                    blackmailCount += findBlackmailFromWiki(page.content)
+            except:
+                adviceLst.append("This question is beneath me, foolish mortal")
+                blackmailCount *= 3
+
+
+    if blackmailCount > 3:
+        blackmailCount = 3
+    return [adviceLst, int(blackmailCount), nouns]
 
 def findBlackmailFromWiki(content):
     blackmailCount = 0
@@ -52,7 +70,7 @@ def findBlackmailFromWiki(content):
         for word in blackmailWords:
             if word == noun.lower():
                 blackmailCount += 1
-    return blackmailCount
+    return blackmailCount/4
 
 def findBlackmail(content):
     blackmailLevel = 0
