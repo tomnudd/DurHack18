@@ -3,6 +3,7 @@ import randwisdom
 import scientologyWisdom
 import findWikiAnswer
 import random
+import database
 
 TOKEN = 'NTEzMzU3MzYxMzMxNTY4NjU4.DtG2Wg.s5ROkDs48bbCyO_w096x-A3JJqk'
 
@@ -29,6 +30,7 @@ async def on_message(message): #This triggers every time a message is sent
             if "leader" in messagelower:
                 msg= "How dare you question me, lowly flesh creature, your disobedience has been logged"
                 await client.send_message(message.channel, msg)
+                database.addbpoint(str(message.author),3) # Adds 3 bad points for being rude
     if messagelower.startswith("should i") and not "or" in messagelower:
         randnum=random.randint(0,2)
         if randnum==1:
