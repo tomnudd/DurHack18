@@ -93,9 +93,9 @@ async def on_ready():  #Runs when the bot connects
   #  requestpraise()
     client.loop.call_later(10800,requestpraise) #Set time until you run requestpraise, 10800 for 3 hours
     client.wait_until_ready()
-    #CassUser=await client.get_user_info("99611176119312384")
-    #print(type(CassUser))
-    #print(CassUser.name)
+    CassUser=await client.get_user_info("99611176119312384")
+
+    print(str(CassUser))
     #client.loop.create_task(requestsecret(CassUser))
 
 def requestpraise():
