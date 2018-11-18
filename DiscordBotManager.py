@@ -15,7 +15,7 @@ client = discord.Client()
 @client.event
 async def on_message(message): #This triggers every time a message is sent
     # we do not want the bot to reply to itself so it ends it the message sender is the same as the bot
-    print("Message from "+str(message.author)+": "+message.content)
+    print("Message from "+str(message.author)+" on "+str(message.channel)+": "+message.content)
     if message.author == client.user:
         return
     print(str(message.timestamp))
@@ -98,6 +98,16 @@ def requestpraise():
     client.loop.create_task(client.send_message(ch_proclimations, msg))
     client.loop.call_later(10800, requestpraise) #Set time until repeat
 
+async def requestsecret(user):
+    client.start_private_message(user)
+    client.send_message(user,"Tell me a secret dear follower")
+    validresponse=False
+    while not validresponse:
+        reply=client.wait_for_message(author=user)
+        if reply.channel.is_private:
+            client.send_message(user, "Your obedience is noted")
+            blackmail.insertBlackmail(str(user),reply,3,"Sent as secret")
+            validresponse=True
 
 
 print("Starting bot")
