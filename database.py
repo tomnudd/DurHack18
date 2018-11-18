@@ -159,6 +159,7 @@ def badpointcount(uname):
         return 0
     mycursor.execute("SELECT badpoints FROM users WHERE discorduname= \"{}\"".format(uname))
     myresult = mycursor.fetchone()
-    return myresult
+    for i in myresult:
+        return i
 
 insertblackmail("Cass","Hates Us All for ever",2)
