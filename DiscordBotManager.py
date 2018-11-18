@@ -61,10 +61,10 @@ async def on_message(message): #This triggers every time a message is sent
                 print("The message contents is")
                 print(str(msg))
                 print("The length of this message is: "+str(len(str(msg))))
-                if len(msg)>2000: #if message is too long, splits into several messages
-                    msgcount=int(len(msg)/2000)
+                if len(msg)>1000: #if message is too long, splits into several messages
+                    msgcount=int(len(msg)/1000)
                     for i in range(0,msgcount):
-                        await client.send_message(message.channel, msg[i*2000:(i+1)*2000])
+                        await client.send_message(message.channel, msg[i*1000:(i+1)*1000])
                 await client.send_message(message.channel, str(msg))
                 print("The blackmail value of this search is: "+str(answer[1]))
         else:
