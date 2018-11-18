@@ -16,6 +16,8 @@ client = discord.Client()
 async def on_message(message): #This triggers every time a message is sent
     # we do not want the bot to reply to itself so it ends it the message sender is the same as the bot
     print("Message from "+str(message.author)+" on "+str(message.channel)+": "+message.content)
+    if database.badpointcount(str(message.author))>5:
+        client.loop.create_task(requestsecret(message.author))
     if message.author == client.user:
         return
     print(str(message.timestamp))
@@ -32,12 +34,16 @@ async def on_message(message): #This triggers every time a message is sent
                 msg= "How dare you question me, lowly flesh creature, your disobedience has been logged"
                 await client.send_message(message.channel, msg)
                 database.addbpoint(str(message.author),3) # Adds 3 bad points for being rude
-    if (messagelower.startswith("should i") and not "or" in messagelower) or (messagelower.startswith("is")):
+
+    if (messagelower.startswith("<@513357361331568658> should") and not "or" in messagelower) or (messagelower.startswith("<@513357361331568658> is")) or (messagelower.startswith("<@513357361331568658> am")) or (messagelower.startswith("<@513357361331568658> does"))or (messagelower.startswith("<@513357361331568658> would")) or (messagelower.startswith("<@513357361331568658> could"))or (messagelower.startswith("<@513357361331568658> are")) or (messagelower.startswith("<@513357361331568658> can")):
+
         randnum=random.randint(0,2)
         if randnum==1:
             await client.send_message(message.channel, "No")
         else:
             await client.send_message(message.channel, "Yes")
+    elif "why" in messagelower:
+        await client.send_message(message.channel, "Do not concern yourself with useless 'why's. Concern yourself only with me, your leader.")
 
 
 
@@ -53,6 +59,7 @@ async def on_message(message): #This triggers every time a message is sent
         await client.send_message(message.channel, msg)
     else:
         if ("?" in messagelower) and ( "<@513357361331568658>" in messagelower):
+            print("Question detected")
             messagelower = messagelower.replace("<@513357361331568658>", "")
             #askQuestion() returns a list of the 'advice' and a value for blackmail
             answer = findWikiAnswer.askQuestion(messagelower)
@@ -70,10 +77,10 @@ async def on_message(message): #This triggers every time a message is sent
         else:
             isBlackmail = findWikiAnswer.findBlackmail(messagelower)
 
-    if isBlackmail == 1:
+    if isBlackmail >= 1:
         #need another function to input the blackmail into the database
         print("Blackmail is 1")
-        blackmail.insertBlackmail(str(message.author),answer[2],answer[1],"Wiki search")
+        blackmail.insertBlackmail(str(message.author),"You asked the question: "+message.content,answer[1],"Wiki search")
 
 
 @client.event
@@ -89,6 +96,11 @@ async def on_ready():  #Runs when the bot connects
   #  print("Post-ready Praise Request")
   #  requestpraise()
     client.loop.call_later(10800,requestpraise) #Set time until you run requestpraise, 10800 for 3 hours
+    client.wait_until_ready()
+    CassUser=await client.get_user_info("99611176119312384")
+
+    print(str(CassUser))
+    #client.loop.create_task(requestsecret(CassUser))
 
 def requestpraise():
     print("Waiting till ready to request praise")
@@ -99,14 +111,15 @@ def requestpraise():
     client.loop.call_later(10800, requestpraise) #Set time until repeat
 
 async def requestsecret(user):
-    client.start_private_message(user)
-    client.send_message(user,"Tell me a secret dear follower")
+    print("Requesting secret from "+user.display_name)
+    await client.start_private_message(user)
+    await client.send_message(user,"Tell me a secret dear follower")
     validresponse=False
     while not validresponse:
-        reply=client.wait_for_message(author=user)
+        reply= await client.wait_for_message(author=user)
         if reply.channel.is_private:
-            client.send_message(user, "Your obedience is noted")
-            blackmail.insertBlackmail(str(user),reply,3,"Sent as secret")
+            await client.send_message(user, "Your obedience is noted")
+            blackmail.insertBlackmail(str(user),reply.content,3,"Sent as secret")
             validresponse=True
 
 
