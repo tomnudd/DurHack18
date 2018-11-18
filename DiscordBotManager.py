@@ -16,10 +16,12 @@ client = discord.Client()
 async def on_message(message): #This triggers every time a message is sent
     # we do not want the bot to reply to itself so it ends it the message sender is the same as the bot
     print("Message from "+str(message.author)+" on "+str(message.channel)+": "+message.content)
-    if database.badpointcount(str(message.author))>5:
-        client.loop.create_task(requestsecret(message.author))
+
     if message.author == client.user:
         return
+
+    if database.badpointcount(str(message.author))>5 and database.giveblackmail(str(message.author),3)==0:
+        client.loop.create_task(requestsecret(message.author))
     print(str(message.timestamp))
     isBlackmail = 0
     messagelower=message.content.lower()
@@ -34,6 +36,7 @@ async def on_message(message): #This triggers every time a message is sent
                 msg= "How dare you question me, lowly flesh creature, your disobedience has been logged"
                 await client.send_message(message.channel, msg)
                 database.addbpoint(str(message.author),3) # Adds 3 bad points for being rude
+                blackmail(message.author)
 
     if (messagelower.startswith("<@513357361331568658> should") and not "or" in messagelower) or (messagelower.startswith("<@513357361331568658> is")) or (messagelower.startswith("<@513357361331568658> am")) or (messagelower.startswith("<@513357361331568658> does"))or (messagelower.startswith("<@513357361331568658> would")) or (messagelower.startswith("<@513357361331568658> could"))or (messagelower.startswith("<@513357361331568658> are")) or (messagelower.startswith("<@513357361331568658> can")):
 
@@ -101,6 +104,8 @@ async def on_ready():  #Runs when the bot connects
 
     print(str(CassUser))
     #client.loop.create_task(requestsecret(CassUser))
+    #for i in range(0,4):
+
 
 def requestpraise():
     print("Waiting till ready to request praise")
@@ -122,6 +127,9 @@ async def requestsecret(user):
             blackmail.insertBlackmail(str(user),reply.content,3,"Sent as secret")
             validresponse=True
 
+def punishHeretic(user):
+    await client.send_message(513372966533464064, str(user) + "has defied the cult.")
+    #print out some juicy gossip
 
 print("Starting bot")
 client.run(TOKEN)
