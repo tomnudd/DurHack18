@@ -56,6 +56,7 @@ async def on_message(message): #This triggers every time a message is sent
         await client.send_message(message.channel, msg)
     else:
         if ("?" in messagelower) and ( "<@513357361331568658>" in messagelower):
+            print("Question detected")
             messagelower = messagelower.replace("<@513357361331568658>", "")
             #askQuestion() returns a list of the 'advice' and a value for blackmail
             answer = findWikiAnswer.askQuestion(messagelower)
