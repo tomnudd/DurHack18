@@ -45,7 +45,7 @@ async def on_message(message): #This triggers every time a message is sent
         print("Wisdom is: "+rawwisdom)
         msg=rawwisdom.format(message)
         await client.send_message(message.channel, msg)
-    elif "share your scientology" or "give a proclamation" in messagelower:
+    elif "share your scientology" in messagelower or "give a proclamation" in messagelower:
         rawwisdom=scientologyWisdom.wisdom()
         print("Proclamation is: "+rawwisdom)
         msg=rawwisdom.format(message)
