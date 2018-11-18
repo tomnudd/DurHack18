@@ -162,4 +162,22 @@ def badpointcount(uname):
     for i in myresult:
         return i
 
-insertblackmail("Cass","Hates Us All for ever",2)
+def dumpitall():
+    mydb = mysql.connector.connect(
+        host="cult.cv27lm8h5axy.eu-west-1.rds.amazonaws.com",
+        user="samrobbins",
+        passwd="durhackcult",
+        database="testDB"
+    )
+
+    mycursor = mydb.cursor()
+    mycursor.execute("SELECT discorduname, blackmail FROM blackmail")
+
+    myresult = mycursor.fetchall()
+
+    for x in myresult:
+        print(x)
+
+
+
+dumpitall()
