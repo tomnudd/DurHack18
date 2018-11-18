@@ -12,7 +12,6 @@
 # reset all values to FALSE when praise is asked for again
 
 def praisecheck(serverid_list, userid_list, sent_time):
-    from datetime import timedelta
     import time
     
     sent_time2 = sent_time.split(".")                         
@@ -20,9 +19,6 @@ def praisecheck(serverid_list, userid_list, sent_time):
     
     userid_time = userid_list[1].split(".")    
     userid_time2 = time.strptime(userid_time[0], "%Y-%m-%d %H:%M:%S")
-    
-    print(sent_time3)
-    print(userid_time2)
     
     difference = time.mktime(userid_time2) - time.mktime(sent_time3)
     if difference < 60**2:
