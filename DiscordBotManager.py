@@ -5,16 +5,25 @@ import findWikiAnswer
 import random
 import database
 import blackmail
+import datetime
 
 TOKEN = 'NTEzMzU3MzYxMzMxNTY4NjU4.DtG2Wg.s5ROkDs48bbCyO_w096x-A3JJqk'
 
 insultingstarters=["down with","i hate", "fuck","die", "i am having doubts", "i dislike","screw"]
 ch_proclimations=None #Initialises this before its edited
 ch_cult_chat=None
+
+lastpraiserequest=None
+memberlistpraise={}
+
 client = discord.Client()
 @client.event
 async def on_message(message): #This triggers every time a message is sent
+    global memberlistpraise
+    if message.author.name not in memberlistpraise:
+        memberlistpraise[message.author.name]=False
     # we do not want the bot to reply to itself so it ends it the message sender is the same as the bot
+
     print("Message from "+str(message.author)+" on "+str(message.channel)+": "+message.content)
 
     if message.author == client.user:
@@ -25,6 +34,10 @@ async def on_message(message): #This triggers every time a message is sent
     print(str(message.timestamp))
     isBlackmail = 0
     messagelower=message.content.lower()
+
+    if "praise glorious leader" in messagelower:
+        await client.send_message(message.channel, "Your praise has been noted, follower")
+        await checkpraiseresponse(message.author)
 
     if messagelower.startswith('hello'):
         msg = 'Hello {0.author.mention}'.format(message)
@@ -102,28 +115,39 @@ async def on_ready():  #Runs when the bot connects
     ch_cult_chat=client.get_channel("513354948092755992")
   #  print("Post-ready Praise Request")
   #  requestpraise()
-    client.loop.call_later(10800,requestpraise) #Set time until you run requestpraise, 10800 for 3 hours
+    requestpraise() #Set time until you run requestpraise, 10800 for 3 hours
     client.wait_until_ready()
     CassUser=await client.get_user_info("99611176119312384")
 
     print(str(CassUser))
-    #client.loop.create_task(requestsecret(CassUser))
+    #client.loop.cre
+    # ate_task(requestsecret(CassUser))
     #for i in range(0,4):
 
 
 def requestpraise():
+    global memberlistpraise
+    for userkey in memberlistpraise:
+        if not memberlistpraise[userkey]:
+            database.addbpoint(userkey,3)
+        memberlistpraise[userkey]=False
+
+
     print("Waiting till ready to request praise")
     client.wait_until_ready()
     print("Requesting Praise")
     msg = "PRAISE ME MORTALS"
     client.loop.create_task(client.send_message(ch_proclimations, msg))
     client.loop.call_later(10800, requestpraise) #Set time until repeat
+    global lastpraiserequest
+    lastpraiserequest = datetime.datetime.now()
+
 
 async def requestsecret(user):
     print("Requesting secret from "+user.display_name)
     await client.start_private_message(user)
     await client.send_message(user,"Tell me a secret dear follower")
-    validresponse=False
+    validresponse = False
     while not validresponse:
         reply= await client.wait_for_message(author=user)
         if reply.channel.is_private:
@@ -131,9 +155,30 @@ async def requestsecret(user):
             blackmail.insertBlackmail(str(user),reply.content,3,"Sent as secret")
             validresponse=True
 
-def punishHeretic(user):
+
+def punishheretic(user):
     client.loop.create_task(client.send_message(513372966533464064, str(user) + "has defied the cult."))
     #print out some juicy gossip
+
+
+async def checkpraiseresponse(user):
+    print("DEBUG PRINT")
+    global lastpraiserequest
+    global memberlistpraise
+    now=datetime.datetime.now()
+    if lastpraiserequest is None:
+        print("No request for praise yet made")
+        return None
+
+    timediff = now-lastpraiserequest
+    if (timediff.seconds/3600)<2:
+        memberlistpraise[user.name]=True
+        if (timediff.seconds / 3600) > 1:
+            await client.send_message(user, "Your praise was late, be more prompt in future")
+            database.addbpoint(user.name,1)
+
+
+
 
 print("Starting bot")
 client.run(TOKEN)
