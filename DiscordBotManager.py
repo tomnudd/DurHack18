@@ -39,6 +39,9 @@ async def on_message(message): #This triggers every time a message is sent
                 await client.send_message(client.get_channel("513372966533464064"), str(message.author) + " has defied the cult.")
                 await client.send_message(client.get_channel("513372966533464064"), str(blackmail.blackmail(str(message.author),3)))
 
+    if messagelower== "get hyped":
+        msg="https://lh3.googleusercontent.com/E1OLQGly6YhImTSZ5HOqUpPq3szjq8hVrsPvG77wEfvMyKyzQWdY3FIw_UA9C2VS-DTcaKb2qQIE6FRTVZesQuiKe0nkERKfc-TXgZPJp9-QsAdlyoeppDYtWnzOM4RJeROKlPWSptpL6nreeJJpvDginh7goDLyumDBPVklTTuhy_7zMGqwjTTiq5z_UvUinHZTYLchjngEOXmTOdbJdCSgKTiRhStWQyLAZKgLazKtKlj3OAAkKffQaw99rOzHDcH3HrwmzH0A_DHLXZcZVrepibldDKQtiVUGf7qtcg2IFyOW1KGeDrJGXlokvSevokoYPY7Vkwx636bakd0SFJ6PPGNmoKCtBrL9sJVlVd_0-f_FCiJm3Uk2Xa1ljDZLYnI2cddhNxgnqxRwawXt-oPCoclI8yJNlpzckfOYMI7YL74mMFu8pfks5J4f9d9WRtJxkaucWUYwCVZ4t6rGcvw4psDkwhbhTfxlbQy8gyhT1eMSlqiy3brjtL9-qHTlLb_1vAYlOx7BNrj58thNJQu8BUiIEez1EYLSXIMI86mSKmUx2nq18Z_DrMfh3wMsDOGUhOZnd4tH-_HJvypTB2AEmkTKBQryBx_51XCCDNAuDJUGJ_kzbaEZar43eMB64G7mQEJBKp6GA6TBuC2qAavusn08zfR_udqXi2fGnkapbhdPjrhVbwTG_CcSnbWidhNV6obTvhyx4_XzPA=w470-h592-no"
+        await client.send_message(message.channel, msg)
     if (messagelower.startswith("<@513357361331568658> should") and not "or" in messagelower) or (messagelower.startswith("<@513357361331568658> is")) or (messagelower.startswith("<@513357361331568658> am")) or (messagelower.startswith("<@513357361331568658> does"))or (messagelower.startswith("<@513357361331568658> would")) or (messagelower.startswith("<@513357361331568658> could"))or (messagelower.startswith("<@513357361331568658> are")) or (messagelower.startswith("<@513357361331568658> can")):
 
         randnum=random.randint(0,2)
