@@ -1,6 +1,15 @@
+<<<<<<< HEAD
 [Dolphin]
 Timestamp=2018,11,24,9,2,16
 Version=4
 
 [Settings]
 HiddenFilesShown=true
+=======
+[Dolphin]
+Timestamp=2018,11,24,9,2,16
+Version=4
+
+[Settings]
+HiddenFilesShown=true
+>>>>>>> fd330f0706d585f581094d5068d3f6e390bfaf57
